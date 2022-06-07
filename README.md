@@ -20,7 +20,7 @@ You will need to point the python wrapper to the binary.
     )
 
     # Learn a state machine
-    result = flexfringe.fit(
+    flexfringe.fit(
         tracefile,
         heuristic_name="alergia",
         data_name="alergia_data"
