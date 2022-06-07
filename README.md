@@ -1,6 +1,11 @@
 # FlexFringe-python
 Python wrapper for flexfringe
 
+## Installation
+```
+pip install git+https://github.com/tudelft-cda-lab/FlexFringe-python.git
+```
+
 ## Usage
 ```python
     from flexfringe import FlexFringe
