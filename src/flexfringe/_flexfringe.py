@@ -163,7 +163,7 @@ class FlexFringe:
         """
         flags = []
         for key in kwargs:
-            flags += ["--" + key + "=" + kwargs[key]]
+            flags += [f"--{key}={kwargs[key]}"]
         return flags
 
 
