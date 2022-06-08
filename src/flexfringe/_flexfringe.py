@@ -8,7 +8,7 @@ import io
 import pandas as pd
 
 class FlexFringe:
-    def __init__(self, flexfringe_path=None):
+    def __init__(self, flexfringe_path=None, heuristic_name="alergia", data_name="alergia_data"):
 
         if flexfringe_path is None:
             self.path = shutil.which("flexfringe")
@@ -21,6 +21,9 @@ class FlexFringe:
 
         self.tracefile = None
         self.resultfile = None
+
+        self.heuristic_name = heuristic_name
+        self.data_name = data_name
 
     @property
     def dot_out(self) -> Path:
@@ -45,9 +48,9 @@ class FlexFringe:
 
         return tmp
 
-    def fit(self, tracefile, heuristic_name="alergia", data_name="alergia_data", **kwargs):
-        kwargs["heuristic_name"] = heuristic_name
-        kwargs["data_name"] = data_name
+    def fit(self, tracefile, **kwargs):
+        kwargs["heuristic_name"] = self.heuristic_name
+        kwargs["data_name"] = self.data_name
         flags = self._format_kwargs(**kwargs)
 
         command = [tracefile] + flags
@@ -64,9 +67,9 @@ class FlexFringe:
         except FileNotFoundError as e:
             raise RuntimeError(f"Error running FlexFringe: no output file found: {e.filename}")
 
-    def predict(self, tracefile, heuristic_name="alergia", data_name="alergia_data", **kwargs):
-        kwargs["heuristic_name"] = heuristic_name
-        kwargs["data_name"] = data_name
+    def predict(self, tracefile, **kwargs):
+        kwargs["heuristic_name"] = self.heuristic_name
+        kwargs["data_name"] = self.data_name
         flags = self._format_kwargs(**kwargs)
 
         command = [tracefile, "--mode=predict", f"--aptafile={self.json_out}"] + flags

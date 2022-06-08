@@ -16,25 +16,19 @@ You will need to point the python wrapper to the binary.
     tracefile = "/path/to/your/tracefile"
 
     flexfringe = FlexFringe(
-        "/path/to/flexfringe"
-    )
-
-    # Learn a state machine
-    flexfringe.fit(
-        tracefile,
+        flexfringe_path="/path/to/flexfringe",
         heuristic_name="alergia",
         data_name="alergia_data"
     )
+
+    # Learn a state machine
+    flexfringe.fit(tracefile)
 
     # Display the learned state machine
     flexfringe.show()
 
     # Use state machine to predict likelihoods
-    df = flexfringe.predict(
-        tracefile,
-        heuristic_name="alergia",
-        data_name="alergia_data"
-    )
+    df = flexfringe.predict(tracefile)
 
     print(df.head())
 ```
