@@ -11,6 +11,7 @@ from pandas import DataFrame
 from tempfile import NamedTemporaryFile
 import warnings
 
+
 class FlexFringe:
     # namespace for multipledispatch
     namespace = dict()
@@ -35,15 +36,6 @@ class FlexFringe:
         self.resultfile = None
 
         self.kwargs = kwargs
-
-        self._check_dot()
-
-    def _check_dot(self):
-        dot = shutil.which("dot")
-        if dot is None:
-            warnings.warn("Could not find dot executable in path. Displaying graphs will not work. "
-                          "Please install graphviz: https://graphviz.org/download/",
-                          category=RuntimeWarning, stacklevel=3)
 
     @property
     def dot_out(self) -> Path:
@@ -232,3 +224,10 @@ class FlexFringe:
         for key in kwargs:
             flags += [f"--{key}={kwargs[key]}"]
         return flags
+
+
+# Check if dot is available when the module is imported
+if shutil.which("dot") is None:
+    warnings.warn("Could not find dot executable in path. Displaying graphs will not work. "
+                  "Please install graphviz: https://graphviz.org/download/",
+                  category=RuntimeWarning, stacklevel=3)
