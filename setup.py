@@ -24,6 +24,7 @@ setuptools.setup(
         'markdown',
         'graphviz',
         'pandas',
-        'pillow'
+        'pillow',
+        'multipledispatch'
     ],
 )
