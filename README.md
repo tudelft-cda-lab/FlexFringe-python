@@ -9,6 +9,8 @@ pip install git+https://github.com/tudelft-cda-lab/FlexFringe-python.git
 Also be sure to [download flexfringe itself](https://github.com/tudelft-cda-lab/FlexFringe/releases/tag/latest).
 You will need to point the python wrapper to the binary, or put it in your PATH.
 
+If you want to use `flexfringe.show()` to display the learned models, you also need to have [graphviz](https://graphviz.org/download/) installed and available.
+
 ## Usage
 ```python
     from flexfringe import FlexFringe
