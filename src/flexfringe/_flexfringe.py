@@ -158,7 +158,7 @@ class FlexFringe:
         df = df.drop(columns=["abbadingo trace"])
         df.insert(0, "abbadingo type", abd_type)
         df.insert(1, "abbadingo length", abd_len)
-        df.insert(2, "abbadingo trace", abd_trace)
+        df.insert(2, "abbadingo trace", abd_trc)
 
         # Parse state sequences
         df['state sequence'] = df['state sequence'] \
