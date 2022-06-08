@@ -7,7 +7,7 @@ pip install git+https://github.com/tudelft-cda-lab/FlexFringe-python.git
 ```
 
 Also be sure to [download flexfringe itself](https://github.com/tudelft-cda-lab/FlexFringe/releases/tag/latest).
-You will need to point the python wrapper to the binary.
+You will need to point the python wrapper to the binary, or put it in your PATH.
 
 ## Usage
 ```python
