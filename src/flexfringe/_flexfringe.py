@@ -39,7 +39,7 @@ class FlexFringe:
         self._check_dot()
 
     def _check_dot(self):
-        dot = shutil.which("dotz")
+        dot = shutil.which("dot")
         if dot is None:
             warnings.warn("Could not find dot executable in path. Displaying graphs will not work. "
                           "Please install graphviz: https://graphviz.org/download/",
