@@ -9,6 +9,7 @@ import pandas as pd
 from multipledispatch import dispatch
 from pandas import DataFrame
 from tempfile import NamedTemporaryFile
+import warnings
 
 class FlexFringe:
     # namespace for multipledispatch
@@ -34,8 +35,15 @@ class FlexFringe:
         self.resultfile = None
 
         self.kwargs = kwargs
-        # self.heuristic_name = heuristic_name
-        # self.data_name = data_name
+
+        self._check_dot()
+
+    def _check_dot(self):
+        dot = shutil.which("dotz")
+        if dot is None:
+            warnings.warn("Could not find dot executable in path. Displaying graphs will not work. "
+                          "Please install graphviz: https://graphviz.org/download/",
+                          category=RuntimeWarning, stacklevel=3)
 
     @property
     def dot_out(self) -> Path:
