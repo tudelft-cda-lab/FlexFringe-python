@@ -14,7 +14,12 @@ class FlexFringe:
     # namespace for multipledispatch
     namespace = dict()
 
-    def __init__(self, flexfringe_path=None, heuristic_name="alergia", data_name="alergia_data"):
+    def __init__(self, flexfringe_path=None, **kwargs):
+        """
+        Initialize the flexfringe wrapper
+        :param flexfringe_path: Path to flexfringe, or None to autodetect (flexfringe must be in PATH)
+        :param kwargs: Any keyword arguments will be passed to flexfringe in the form of --key=value
+        """
 
         if flexfringe_path is None:
             self.path = shutil.which("flexfringe")
@@ -28,8 +33,9 @@ class FlexFringe:
         self.tracefile = None
         self.resultfile = None
 
-        self.heuristic_name = heuristic_name
-        self.data_name = data_name
+        self.kwargs = kwargs
+        # self.heuristic_name = heuristic_name
+        # self.data_name = data_name
 
     @property
     def dot_out(self) -> Path:
@@ -77,9 +83,11 @@ class FlexFringe:
         :param tracefile: Path to the trace file to load. Can be either in abbadingo or csv format
         :param kwargs: other parameters to be passed to flexfringe
         """
-        kwargs["heuristic_name"] = self.heuristic_name
-        kwargs["data_name"] = self.data_name
-        flags = self._format_kwargs(**kwargs)
+        # Use the kwargs passed to this function as overrides for the ones specified in the constructor
+        all_kwargs = dict(self.kwargs)
+        for k, v in kwargs.items():
+            all_kwargs[k] = v
+        flags = self._format_kwargs(**all_kwargs)
 
         command = [tracefile] + flags
 
@@ -117,9 +125,11 @@ class FlexFringe:
         :param kwargs: other parameters to be passed to flexfringe
         :return: A dataframe with the output from flexfringe
         """
-        kwargs["heuristic_name"] = self.heuristic_name
-        kwargs["data_name"] = self.data_name
-        flags = self._format_kwargs(**kwargs)
+        # Use the kwargs passed to this function as overrides for the ones specified in the constructor
+        all_kwargs = dict(self.kwargs)
+        for k, v in kwargs.items():
+            all_kwargs[k] = v
+        flags = self._format_kwargs(**all_kwargs)
 
         command = [tracefile, "--mode=predict", f"--aptafile={self.json_out}"] + flags
 
