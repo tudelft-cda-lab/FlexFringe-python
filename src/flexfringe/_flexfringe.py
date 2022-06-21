@@ -1,3 +1,4 @@
+import os
 import subprocess
 import shutil
 import time
@@ -70,9 +71,11 @@ class FlexFringe:
         :param df: Pandas dataframe containing the data to learn a state machine from
         :param kwargs: other parameters to be passed to flexfringe
         """
-        with NamedTemporaryFile("w", suffix=".csv") as file:
+        with NamedTemporaryFile("w", suffix=".csv", delete=False) as file:
             df.to_csv(file)
+            file.close()
             self.fit(file.name, **kwargs)
+            os.remove(file.name)
 
     @dispatch(object, namespace=namespace)
     def fit(self, tracefile, **kwargs):
@@ -112,9 +115,12 @@ class FlexFringe:
         :param kwargs: other parameters to be passed to flexfringe
         :return: A dataframe with the output from flexfringe
         """
-        with NamedTemporaryFile("w", suffix=".csv") as file:
+        with NamedTemporaryFile("w", suffix=".csv", delete=False) as file:
             df.to_csv(file)
-            return self.predict(file.name, **kwargs)
+            file.close()
+            df_out = self.predict(file.name, **kwargs)
+            os.remove(file.name)
+            return df_out
 
     @dispatch(object)
     def predict(self, tracefile, **kwargs):
