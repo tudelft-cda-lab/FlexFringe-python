@@ -11,7 +11,8 @@ from multipledispatch import dispatch
 from pandas import DataFrame
 from tempfile import NamedTemporaryFile
 import warnings
-
+from loguru import logger
+logger.disable("flexfringe")
 
 class FlexFringe:
     # namespace for multipledispatch
@@ -190,10 +191,12 @@ class FlexFringe:
             command = ["--help"]
 
         full_cmd = ["flexfringe"] + command
-        print("Running: ", " ".join(full_cmd))
+        logger.debug(f"Running: {' '.join(full_cmd)}")
         result = subprocess.run([self.path] + command, stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE, universal_newlines=True)
-        print(result.returncode, result.stdout, result.stderr)
+        logger.debug(f"Flexfringe exit code: {result.returncode}")
+        logger.info(f"Flexfringe stdout:\n{result.stdout}")
+        logger.info(f"Flexfringe stderr:\n{result.stderr}")
 
     def show(self, format="png"):
         """

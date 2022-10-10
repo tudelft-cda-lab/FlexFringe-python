@@ -25,6 +25,7 @@ setuptools.setup(
         'graphviz',
         'pandas',
         'pillow',
-        'multipledispatch'
+        'multipledispatch',
+        'loguru'
     ],
 )
