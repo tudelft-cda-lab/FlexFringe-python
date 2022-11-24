@@ -12,7 +12,9 @@ from pandas import DataFrame
 from tempfile import NamedTemporaryFile
 import warnings
 from loguru import logger
+
 logger.disable("flexfringe")
+
 
 class FlexFringe:
     # namespace for multipledispatch
@@ -205,6 +207,10 @@ class FlexFringe:
 
         :param format: a file format supported by both graphviz and pillow.
         """
+        if shutil.which("dot") is None:
+            raise RuntimeError("Could not find dot executable in path. Displaying graphs will not work. "
+                               "Please install graphviz: https://graphviz.org/download/")
+
         if self.dot_out is None:
             raise RuntimeError("No output available, run \"fit\" first")
         else:
@@ -233,10 +239,3 @@ class FlexFringe:
         for key in kwargs:
             flags += [f"--{key}={kwargs[key]}"]
         return flags
-
-
-# Check if dot is available when the module is imported
-if shutil.which("dot") is None:
-    warnings.warn("Could not find dot executable in path. Displaying graphs will not work. "
-                  "Please install graphviz: https://graphviz.org/download/",
-                  category=RuntimeWarning, stacklevel=3)
