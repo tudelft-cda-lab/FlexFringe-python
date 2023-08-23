@@ -1,4 +1,4 @@
-import os
+import os, sys
 import subprocess
 import shutil
 import time
@@ -196,6 +196,13 @@ class FlexFringe:
         logger.debug(f"Running: {' '.join(full_cmd)}")
         result = subprocess.run([self.path] + command, stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE, universal_newlines=True)
+        
+        # print output to console
+        for outstr in result.stdout:
+            sys.stdout.write(outstr)
+        for outstr in result.stderr:
+            sys.stderr.write(outstr)
+        
         logger.debug(f"Flexfringe exit code: {result.returncode}")
         logger.info(f"Flexfringe stdout:\n{result.stdout}")
         logger.info(f"Flexfringe stderr:\n{result.stderr}")
