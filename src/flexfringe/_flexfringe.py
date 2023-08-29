@@ -1,4 +1,4 @@
-import os
+import os, sys
 import subprocess
 import shutil
 import time
@@ -145,6 +145,16 @@ class FlexFringe:
         self._run(command)
 
         return self._parse_flexfringe_result()
+    
+    def load_model(self, tracefile: str):
+        """Loads a model using the tracefile path..
+
+        Args:
+            tracefile (str): The tracefile path.
+        """
+        if not os.path.isfile(tracefile):
+            raise Exception("We need a valid path to a tracefile.")
+        self.tracefile = tracefile
 
     def _parse_flexfringe_result(self):
         df = pd.read_csv(self.result_out, delimiter=";", index_col="row nr")
@@ -196,6 +206,13 @@ class FlexFringe:
         logger.debug(f"Running: {' '.join(full_cmd)}")
         result = subprocess.run([self.path] + command, stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE, universal_newlines=True)
+        
+        # print output to console
+        for outstr in result.stdout:
+            sys.stdout.write(outstr)
+        for outstr in result.stderr:
+            sys.stderr.write(outstr)
+        
         logger.debug(f"Flexfringe exit code: {result.returncode}")
         logger.info(f"Flexfringe stdout:\n{result.stdout}")
         logger.info(f"Flexfringe stderr:\n{result.stderr}")
