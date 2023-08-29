@@ -145,6 +145,16 @@ class FlexFringe:
         self._run(command)
 
         return self._parse_flexfringe_result()
+    
+    def load_model(self, tracefile: str):
+        """Loads a model using the tracefile path..
+
+        Args:
+            tracefile (str): The tracefile path.
+        """
+        if not os.path.isfile(tracefile):
+            raise Exception("We need a valid path to a tracefile.")
+        self.tracefile = tracefile
 
     def _parse_flexfringe_result(self):
         df = pd.read_csv(self.result_out, delimiter=";", index_col="row nr")
